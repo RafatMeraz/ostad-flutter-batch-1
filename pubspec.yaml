@@ -22,7 +22,7 @@ dependencies:
 #      ref: 0.0.0.1
 
 
-dependency_overrides:
+#dependency_overrides:
 #  cupertino_icons: 1.0.0
 
 dev_dependencies:
