@@ -38,23 +38,34 @@ class _ProductListScreenState extends State<ProductListScreen> {
     getProductListFromApi();
   }
 
-  void getProductListFromApi() async {
+  Future<void> getProductListFromApi() async {
     String url = 'https://crud.devnextech.com/api/v1/ReadProduct';
     Uri uri = Uri.parse(url);
     http.Response response = await http.get(uri);
     if (response.statusCode == 200) {
       print(response.statusCode);
       print(response.body);
+      var value = jsonDecode(response.body);
+      productListPojo = ProductListPojo.fromJson(value);
+      setState(() {
 
-
-      productListPojo = ProductListPojo.fromJson(jsonDecode(response.body));
-      setState(() {});
+      });
     }
+  }
+
+  void addANewProduct() {
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewProduct()));
+        },
+        child: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: const Text('Product List'),
       ),
@@ -62,8 +73,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
           itemCount: productListPojo?.listOfProducts?.length ?? 0,
           itemBuilder: (context, index) {
         return ListTile(
-          title: Text(productListPojo?.listOfProducts?[index].productName ?? ''),
-          subtitle: Text(productListPojo?.listOfProducts?[index].productCode ?? ''),
+          title: Text(productListPojo?.listOfProducts?[index].productName ?? 'Unknown'),
+          subtitle: Text(productListPojo?.listOfProducts?[index].productCode ?? 'Unknown'),
           trailing: Text(productListPojo?.listOfProducts?[index].unitPrice ?? ''),
         );
       }),
@@ -72,7 +83,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 }
 
 
-/// responsible for the conversion of json to dart
+/// POJO / Model class
+/// responsible for the conversion of json to dart / dart to json
 class ProductListPojo {
   String? status;
   List<Product>? listOfProducts;
@@ -121,6 +133,136 @@ class Product {
     createdDate = json['CreatedDate'];
   }
 }
+
+
+class AddNewProduct extends StatefulWidget {
+  const AddNewProduct({Key? key}) : super(key: key);
+
+  @override
+  State<AddNewProduct> createState() => _AddNewProductState();
+}
+
+class _AddNewProductState extends State<AddNewProduct> {
+  TextEditingController _productNameETController = TextEditingController();
+  TextEditingController _productCodeETController = TextEditingController();
+  TextEditingController _productUnitPriceETController = TextEditingController();
+  TextEditingController _productImageETController = TextEditingController();
+  TextEditingController _productQuantityETController = TextEditingController();
+  TextEditingController _productTotalPriceTController = TextEditingController();
+
+  GlobalKey<FormState> _form = GlobalKey();
+
+  Future<void> addANewProduct(String name, String productCode, String quantity,
+      String image, String unitPrice, String totalPrice) async {
+    String url = 'https://crud.devnextech.com/api/v1/CreateProduct';
+    Uri uri = Uri.parse(url);
+    http.Response response = await http.post(uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: jsonEncode({
+          "Img": image,
+          "ProductCode": productCode,
+          "ProductName": name,
+          "Qty": quantity,
+          "TotalPrice": totalPrice,
+          "UnitPrice": unitPrice
+        }));
+    if (response.statusCode == 200) {
+      print(response.body);
+      print('Product added successfully');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Product added successfully')));
+      _productTotalPriceTController.text = '';
+      _productUnitPriceETController.text = '';
+      _productImageETController.text = '';
+      _productNameETController.text = '';
+      _productCodeETController.text = '';
+      _productQuantityETController.text = '';
+    } else {
+      print('Failed');
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add new product'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          key: _form,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: (String? value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please enter your product name';
+                  }
+                  return null;
+                },
+                controller: _productNameETController,
+                decoration: InputDecoration(
+                  hintText: 'Product name'
+                ),
+              ),
+              TextField(
+                controller: _productCodeETController,
+                decoration: InputDecoration(
+                  hintText: 'Product code'
+                ),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _productUnitPriceETController,
+                decoration: InputDecoration(
+                  hintText: 'Unit price'
+                ),
+              ),
+              TextField(
+                controller: _productImageETController,
+                decoration: InputDecoration(
+                  hintText: 'Image'
+                ),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _productQuantityETController,
+                decoration: InputDecoration(
+                  hintText: 'Quantity'
+                ),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _productTotalPriceTController,
+                decoration: InputDecoration(
+                  hintText: 'Total price'
+                ),
+              ),
+              ElevatedButton(onPressed: () {
+                if (_form.currentState!.validate()) {
+                  addANewProduct(
+                    _productNameETController.text,
+                    _productCodeETController.text,
+                    _productQuantityETController.text,
+                    _productImageETController.text,
+                    _productUnitPriceETController.text,
+                    _productTotalPriceTController.text,
+                  );
+                }
+              }, child: Text('Add Product'))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 
 
