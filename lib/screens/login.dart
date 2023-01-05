@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:ostad_flutter_batch_one/screens/forgot_password_screen.dart';
+import 'package:ostad_flutter_batch_one/screens/register_screen.dart';
+import 'package:ostad_flutter_batch_one/widgets/background_image.dart';
+import 'package:ostad_flutter_batch_one/widgets/decorations_styles.dart';
+import '../widgets/reusable_elevated_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,85 +19,73 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SvgPicture.asset(
-            'assets/images/background.svg', height: MediaQuery
-              .of(context)
-              .size
-              .height, width: MediaQuery.of(context).size.width, fit: BoxFit.cover,),
-          SafeArea(
-            child: Form(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Get Started With', style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600
-                    ),),
-                    const SizedBox(height: 24),
-                    TextFormField(
-                      controller: emailTEController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none
-                        )
-                      ),
-                      validator: (String? text) {
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: passwordTEController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        fillColor: Colors.white,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none
-                        )
-                      ),
-                      validator: (String? text) {
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green
-                        ),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.arrow_circle_right_outlined,
-                            color: Colors.white,
-                          )),
-                    ),
-                    const SizedBox(height: 32),
-                    Center(child: TextButton(onPressed: () {}, child: const Text('Forget password?'))),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Don\'t have an account'),
-                        TextButton(onPressed: () {}, child: const Text('Sign Up'))
-                      ],
-                    )
-                  ],
-                ),
+      body: BackgroundImage(
+        child: SafeArea(
+          child: Form(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Get Started With',
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: emailTEController,
+                    decoration: textFieldInputDecoration('Email'),
+                    validator: (String? text) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: passwordTEController,
+                    obscureText: true,
+                    decoration: textFieldInputDecoration('Password'),
+                    validator: (String? text) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ReusableElevatedButton(
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 32),
+                  Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordScreen()));
+                          },
+                          child: const Text('Forget password?'))),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Don\'t have an account'),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const RegisterScreen()));
+                          },
+                          child: const Text('Sign Up'))
+                    ],
+                  )
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
