@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/screens/forgot_password_screen.dart';
+import 'package:ostad_flutter_batch_one/screens/main_bottom_nav_bar.dart';
 import 'package:ostad_flutter_batch_one/screens/register_screen.dart';
 import 'package:ostad_flutter_batch_one/widgets/background_image.dart';
 import 'package:ostad_flutter_batch_one/widgets/decorations_styles.dart';
@@ -54,7 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   ReusableElevatedButton(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context, MaterialPageRoute(builder: (context) =>
+                          const MainBottomNavBar()), (route) => false);
+                    },
                   ),
                   const SizedBox(height: 32),
                   Center(
