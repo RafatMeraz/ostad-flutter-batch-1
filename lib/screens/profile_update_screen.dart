@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/widgets/reusable_app_bar.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/background_image.dart';
 import '../widgets/decorations_styles.dart';
@@ -14,6 +17,8 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  XFile? photoFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +34,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 const Text('Update Profile', style: pageTitleTextStyle),
                 const SizedBox(height: 16),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    final imagePicker = ImagePicker();
+                    final result = await imagePicker.pickImage(source: ImageSource.camera);
+                    if (result != null) {
+                      photoFile = result;
+                      setState(() {
 
+                      });
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -47,7 +59,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           child: const Text('Photo', style: TextStyle(
                             color: Colors.white
                           ),),
-                        )
+                        ),
+                        Image.file(File(photoFile?.path ?? ''), width: 25, height: 25,),
+                        Expanded(child: Text(photoFile?.name ?? '', maxLines: 3, ))
                       ],
                     ),
                   ),
