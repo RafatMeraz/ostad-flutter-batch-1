@@ -46,6 +46,8 @@ dev_dependencies:
   pin_code_fields: ^7.4.0
   image_picker: ^0.8.6
   http: any
+  shared_preferences: ^2.0.16
+
 
 
 # For information on the generic Dart part of this file, see the

@@ -103,6 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         "password": _passwordTEController.text,
                         "photo": ""
                       });
+                      print(result);
                       if (result['status'] == 'success') {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Registration successful')));

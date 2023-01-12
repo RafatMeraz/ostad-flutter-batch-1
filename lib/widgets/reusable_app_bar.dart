@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_one/screens/login.dart';
 import 'package:ostad_flutter_batch_one/screens/profile_update_screen.dart';
+import 'package:ostad_flutter_batch_one/utils/user_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 AppBar buildReusableAppBar(context, {bool isTappable = true}) {
   return AppBar(
@@ -19,8 +22,20 @@ AppBar buildReusableAppBar(context, {bool isTappable = true}) {
         backgroundColor: Colors.green.shade800,
         child: const Icon(Icons.person),
       ),
-      title: const Text('Rabbil Hasan'),
-      subtitle: const Text('test@gmail.com'),
+      title: Text('${UserData.firstName ?? ''} ${UserData.lastName ?? ''}'),
+      subtitle: Text(UserData.email ?? ''),
     ),
+    actions: [
+      IconButton(
+          onPressed: () async {
+            final sharedPrefs = await SharedPreferences.getInstance();
+            sharedPrefs.clear();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (route) => false);
+          },
+          icon: const Icon(Icons.logout))
+    ],
   );
 }
