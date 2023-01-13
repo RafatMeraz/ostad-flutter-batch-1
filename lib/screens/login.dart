@@ -85,8 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               final sharedPrefs = await SharedPreferences.getInstance();
                               UserData.token = result['token'];
                               UserData.firstName = result['data']['firstName'];
-                              UserData.token = result['data']['lastName'];
-                              UserData.token = result['data']['email'];
+                              UserData.lastName = result['data']['lastName'];
+                              UserData.email = result['data']['email'];
 
                               sharedPrefs.setString('email', result['data']['email']);
                               sharedPrefs.setString('firstName', result['data']['firstName']);
