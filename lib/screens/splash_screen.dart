@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       UserData.firstName = sharedPrefs.getString('firstName');
       UserData.lastName = sharedPrefs.getString('lastName');
       UserData.email = sharedPrefs.getString('email');
+      UserData.phone = sharedPrefs.getString('phone');
 
       Future.delayed(const Duration(seconds: 1)).then((value) {
         Navigator.pushAndRemoveUntil(

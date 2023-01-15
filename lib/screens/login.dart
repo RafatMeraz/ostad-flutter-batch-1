@@ -87,9 +87,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               UserData.firstName = result['data']['firstName'];
                               UserData.lastName = result['data']['lastName'];
                               UserData.email = result['data']['email'];
+                              UserData.phone = result['data']['mobile'];
 
                               sharedPrefs.setString('email', result['data']['email']);
                               sharedPrefs.setString('firstName', result['data']['firstName']);
+                              sharedPrefs.setString('phone', result['data']['mobile']);
                               sharedPrefs.setString('lastName', result['data']['lastName']);
                               sharedPrefs.setString('token', result['token']);
 
