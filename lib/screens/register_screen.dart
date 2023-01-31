@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_one/network_services/network_requester.dart';
 import 'package:ostad_flutter_batch_one/widgets/background_image.dart';
 import 'package:ostad_flutter_batch_one/widgets/decorations_styles.dart';
@@ -122,7 +123,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const Text('Have Account?'),
                       TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
+                            Get.back();
                           },
                           child: const Text('Sign In'))
                     ],

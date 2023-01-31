@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_one/screens/login.dart';
 import 'package:ostad_flutter_batch_one/screens/main_bottom_nav_bar.dart';
 import 'package:ostad_flutter_batch_one/utils/user_data.dart';
@@ -35,17 +36,24 @@ class _SplashScreenState extends State<SplashScreen> {
       UserData.phone = sharedPrefs.getString('phone');
 
       Future.delayed(const Duration(seconds: 1)).then((value) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
-                (route) => false);
+        // Get.to(const MainBottomNavBar());
+        // Get.off(const MainBottomNavBar());
+        Get.offAll(const MainBottomNavBar());
+        // Navigator.pop(context);
+        // Get.back(result: true);
+        // navigator!.pushAndRemoveUntil(
+        //     MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
+        //         (route) => false);
       });
     } else {
       Future.delayed(const Duration(seconds: 1)).then((value) {
-        Navigator.pushAndRemoveUntil(
-            context,
+        navigator!.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const LoginScreen()),
                 (route) => false);
+        // Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+        //         (route) => false);
       });
     }
   }
