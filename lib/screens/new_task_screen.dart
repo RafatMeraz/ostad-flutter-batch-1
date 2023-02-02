@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ostad_flutter_batch_one/models/new_task_model.dart';
 import 'package:ostad_flutter_batch_one/network_services/network_requester.dart';
 import 'package:ostad_flutter_batch_one/network_services/urls.dart';
 import 'package:ostad_flutter_batch_one/widgets/text_styles.dart';
+import 'package:get/get.dart';
 
+import '../state_management/new_tasks_controller.dart';
 import '../widgets/reusable_elevated_button.dart';
 import '../widgets/task_widget.dart';
 
@@ -15,22 +16,14 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-  NewTaskModel? _newTaskModel;
+  final newTasksController = Get.put(NewTasksController());
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getNewTaskFromApi();
+      newTasksController.getNewTaskFromApi();
     });
-  }
-
-  Future<void> getNewTaskFromApi() async {
-    final response = await NetworkRequester().getRequest(Urls.newTask);
-    if (response['status'] == 'success') {
-      _newTaskModel = NewTaskModel.fromJson(response);
-      setState(() {});
-    }
   }
 
   @override
@@ -50,31 +43,41 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           ),
         ),
         const SizedBox(height: 16),
-        if (_newTaskModel == null)
-          const Expanded(child: Center(child: CircularProgressIndicator()))
-        else
-          Expanded(
-              child: RefreshIndicator(
-            onRefresh: () async {
-              getNewTaskFromApi();
-            },
-            child: ListView.builder(
-              itemCount: _newTaskModel?.tasks?.length ?? 0,
-              itemBuilder: (context, index) {
-                final task = _newTaskModel!.tasks![index];
-                return TaskWidget(
-                  title: task.title ?? 'Unknown',
-                  description: task.description ?? 'UnKnown',
-                  date: task.createdDate ?? 'Unknown',
-                  onDeleteTap: () {},
-                  onEditTap: () {
-                    showModalSheetForChangeStatus(task.sId ?? '');
-                  },
-                  type: task.status ?? 'New',
+        GetBuilder<NewTasksController>(
+            init: NewTasksController(),
+            builder: (controller) {
+              if (controller.inProgress) {
+                return const Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
-              },
-            ),
-          ))
+              } else {
+                return Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      newTasksController.getNewTaskFromApi();
+                    },
+                    child: ListView.builder(
+                      itemCount: controller.newTaskModel?.tasks?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final task = controller.newTaskModel!.tasks![index];
+                        return TaskWidget(
+                          title: task.title ?? 'Unknown',
+                          description: task.description ?? 'UnKnown',
+                          date: task.createdDate ?? 'Unknown',
+                          onDeleteTap: () {},
+                          onEditTap: () {
+                            showModalSheetForChangeStatus(task.sId ?? '');
+                          },
+                          type: task.status ?? 'New',
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
+            }),
       ],
     );
   }
@@ -135,7 +138,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         taskStatusChangeInProgress = false;
                         changeState(() {});
                         if (response['status'] == 'success') {
-                          getNewTaskFromApi();
+                          newTasksController.getNewTaskFromApi();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text('Status change successful!')));
                           Navigator.pop(context);

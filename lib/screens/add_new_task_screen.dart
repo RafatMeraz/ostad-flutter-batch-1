@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_one/network_services/network_requester.dart';
 import 'package:ostad_flutter_batch_one/widgets/background_image.dart';
 import 'package:ostad_flutter_batch_one/widgets/reusable_app_bar.dart';
 import 'package:ostad_flutter_batch_one/widgets/reusable_elevated_button.dart';
 import 'package:ostad_flutter_batch_one/widgets/text_styles.dart';
 
+import '../state_management/new_tasks_controller.dart';
 import '../widgets/decorations_styles.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
@@ -83,6 +85,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         if (response['status'] == 'success') {
                           subjectTEController.clear();
                           descriptionTEController.clear();
+                          Get.put(NewTasksController()).getNewTaskFromApi();
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('New task has been added!')));
