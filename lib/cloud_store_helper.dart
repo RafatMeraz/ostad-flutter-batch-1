@@ -18,4 +18,12 @@ class CloudStoreHelper {
     }
     return listOfBooks;
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> listenAllBooksCollection() {
+    return db.collection('books').snapshots();
+  }
+
+  Future<void> addNewBook(Book book) async {
+    await db.collection('books').add(book.toMap());
+  }
 }
