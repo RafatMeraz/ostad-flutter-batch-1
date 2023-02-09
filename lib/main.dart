@@ -1,10 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_one/fcm_utils.dart';
 import 'package:ostad_flutter_batch_one/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseMessaging.instance.requestPermission();
+  // FirebaseMessaging.instance.getInitialMessage();
+  FCMUtils().listenFirebaseMessages();
+
   runApp(const MyApp());
 }
 
