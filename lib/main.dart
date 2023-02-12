@@ -24,15 +24,39 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late GoogleMapController googleMapController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mapview'),
       ),
-      body: const GoogleMap(
-        initialCameraPosition:
-            CameraPosition(target: LatLng(23.80560326575505, 90.3745761108481)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          googleMapController.animateCamera(
+            CameraUpdate.newCameraPosition(
+              const CameraPosition(
+                zoom: 17,
+                target: LatLng(23.809296231228714, 90.41996958386494),
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.location_on_outlined),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      body: GoogleMap(
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        onMapCreated: (GoogleMapController? controller) {
+          googleMapController = controller!;
+        },
+        initialCameraPosition: const CameraPosition(
+          zoom: 16,
+          target: LatLng(23.80560326575505, 90.3745761108481),
+        ),
       ),
     );
   }
