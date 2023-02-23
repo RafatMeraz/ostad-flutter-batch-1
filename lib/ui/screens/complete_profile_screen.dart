@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/app_textfield_widget.dart';
 
 import '../widgets/app_elevated_button.dart';
+import 'main_bottom_navigation_bar.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({Key? key}) : super(key: key);
@@ -15,10 +16,10 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 const SizedBox(
@@ -53,7 +54,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 16,
                 ),
                 AppTextFieldWidget(
-                    controller: TextEditingController(), hintText: 'First name'),
+                    controller: TextEditingController(),
+                    hintText: 'First name'),
                 const SizedBox(
                   height: 8,
                 ),
@@ -73,14 +75,20 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                   height: 8,
                 ),
                 AppTextFieldWidget(
-                  maxLines: 4,
-                    controller: TextEditingController(), hintText: 'Shipping Address'),
+                    maxLines: 4,
+                    controller: TextEditingController(),
+                    hintText: 'Shipping Address'),
                 const SizedBox(
                   height: 16,
                 ),
                 AppElevatedButton(
                   onTap: () {
-
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MainBottomNavigationBar()),
+                        (route) => false);
                   },
                   text: 'Complete',
                 ),
@@ -92,5 +100,6 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
           ),
         ),
       ),
-    );  }
+    );
+  }
 }
