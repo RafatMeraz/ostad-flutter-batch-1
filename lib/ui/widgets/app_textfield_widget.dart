@@ -6,16 +6,18 @@ class AppTextFieldWidget extends StatelessWidget {
   const AppTextFieldWidget({
     Key? key,
     required this.controller,
-    required this.hintText,
+    required this.hintText, this.maxLines,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      maxLines: maxLines ?? 1,
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ostad_flutter_batch_one/ui/screens/verify_otp_screen.dart';
 
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_textfield_widget.dart';
@@ -60,7 +61,10 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
                   height: 16,
                 ),
                 AppElevatedButton(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => const VerifyOtpScreen()));
+                  },
                   text: 'Next',
                 )
               ],
