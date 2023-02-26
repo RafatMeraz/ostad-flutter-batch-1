@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/bottom_navigation_controller.dart';
+import 'package:ostad_flutter_batch_one/ui/screens/carts_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/category_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/home_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/utils/app_colors.dart';
@@ -20,7 +21,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   final List<Widget> screens = const [
     HomeScreen(),
     ProductCategoryScreen(),
-    HomeScreen(),
+    CartsScreen(),
     HomeScreen(),
   ];
 
