@@ -3,6 +3,7 @@ import 'package:ostad_flutter_batch_one/ui/getx/bottom_navigation_controller.dar
 import 'package:ostad_flutter_batch_one/ui/screens/carts_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/category_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/home_screen.dart';
+import 'package:ostad_flutter_batch_one/ui/screens/wish_list_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/utils/app_colors.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
     HomeScreen(),
     ProductCategoryScreen(),
     CartsScreen(),
-    HomeScreen(),
+    WishListScreen(),
   ];
 
   @override
