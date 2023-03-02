@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ostad_flutter_batch_one/data/models/product_slider_model.dart';
 
 import '../../utils/app_colors.dart';
 
 class HomeBannerSlider extends StatelessWidget {
-  HomeBannerSlider({Key? key}) : super(key: key);
+  HomeBannerSlider({Key? key, required this.productSliderModel})
+      : super(key: key);
   final ValueNotifier<int> _currentSelectedIndex = ValueNotifier(0);
   final CarouselController _carouselController = CarouselController();
+  final ProductSliderModel productSliderModel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +24,19 @@ class HomeBannerSlider extends StatelessWidget {
               onPageChanged: (index, _) {
                 _currentSelectedIndex.value = index;
               }),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: productSliderModel.data?.map((slider) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 1),
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(8)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
-                    ));
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 1),
+                  decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                          image: NetworkImage(slider.image ?? ''))),
+                  alignment: Alignment.center,
+                );
               },
             );
           }).toList(),
@@ -48,7 +50,7 @@ class HomeBannerSlider extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < (productSliderModel.data?.length ?? 0); i++)
                   Container(
                     margin: const EdgeInsets.all(3),
                     height: 12,

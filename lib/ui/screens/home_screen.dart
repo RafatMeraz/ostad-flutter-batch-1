@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/home_controller.dart';
 
 import '../widgets/category_item_widget.dart';
 import '../widgets/home/home_banner_slider.dart';
@@ -14,6 +16,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.getProductSliderList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              HomeBannerSlider(),
+              GetBuilder<HomeController>(
+                builder: (homeController) {
+                  if (homeController.getProductSliderInProgress) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return HomeBannerSlider(
+                      productSliderModel: homeController.productSliderModel,
+                    );
+                  }
+                }
+              ),
               SectionHeader(
                 headerName: 'Categories',
                 onTapSeeAll: () {},
