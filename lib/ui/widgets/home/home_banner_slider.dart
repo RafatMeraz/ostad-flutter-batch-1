@@ -16,6 +16,7 @@ class HomeBannerSlider extends StatelessWidget {
           carouselController: _carouselController,
           options: CarouselOptions(
               height: 180.0,
+              autoPlay: true,
               viewportFraction: 1,
               onPageChanged: (index, _) {
                 _currentSelectedIndex.value = index;

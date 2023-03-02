@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ostad_flutter_batch_one/ui/screens/main_bottom_navigation_bar.dart';
 
 import '../utils/app_colors.dart';
 
@@ -11,6 +12,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2)).then(
+      (value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const MainBottomNavigationBar()),
+            (route) => false);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
