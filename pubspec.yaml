@@ -52,7 +52,7 @@ dev_dependencies:
   carousel_slider: ^4.2.1
   get: ^4.6.5
   number_inc_dec: ^0.8.0
-
+  http: ^0.13.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
