@@ -6,12 +6,12 @@ class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
     Key? key,
     required this.categoryItemName,
-    required this.icon,
+    required this.image,
     required this.onTap,
   }) : super(key: key);
 
   final String categoryItemName;
-  final IconData icon;
+  final String image;
   final VoidCallback onTap;
 
   @override
@@ -25,16 +25,8 @@ class CategoryItemWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.primaryColor.withOpacity(0.15)),
-              child: Icon(
-                icon,
-                size: 32,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const SizedBox(
-              height: 6,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Image.network(image, height: 35, width: 30,)
             ),
             Text(
               categoryItemName,

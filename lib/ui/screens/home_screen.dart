@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/category_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/home_controller.dart';
 
 import '../widgets/category_item_widget.dart';
@@ -16,13 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeController homeController = Get.put(HomeController());
-
-  @override
-  void initState() {
-    super.initState();
-    homeController.getProductSliderList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,37 +99,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 headerName: 'Categories',
                 onTapSeeAll: () {},
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    CategoryItemWidget(
-                      onTap: () {},
-                      icon: Icons.computer,
-                      categoryItemName: 'Electronics',
-                    ),
-                    CategoryItemWidget(
-                      onTap: () {},
-                      icon: Icons.add_business,
-                      categoryItemName: 'Tools',
-                    ),
-                    CategoryItemWidget(
-                      onTap: () {},
-                      icon: Icons.computer,
-                      categoryItemName: 'Electronics',
-                    ),
-                    CategoryItemWidget(
-                      onTap: () {},
-                      icon: Icons.add_business,
-                      categoryItemName: 'Tools',
-                    ),
-                    CategoryItemWidget(
-                      onTap: () {},
-                      icon: Icons.computer,
-                      categoryItemName: 'Electronics',
-                    )
-                  ],
-                ),
+              GetBuilder<CategoryController>(
+                builder: (controller) {
+                  if (controller.getCategoryInProgress) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  else {
+                    return SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.categoryModel.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return CategoryItemWidget(
+                            onTap: () {},
+                            image: controller
+                                .categoryModel.data![index].categoryImg ??
+                                '',
+                          categoryItemName: controller
+                                  .categoryModel.data![index].categoryName ??
+                              '',
+                        );
+                        },
+                      ),
+                    );
+                  }
+                }
               ),
               const SizedBox(
                 height: 16,

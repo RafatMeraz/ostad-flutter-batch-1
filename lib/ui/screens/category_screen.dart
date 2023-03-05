@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/category_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/category_item_widget.dart';
 import 'package:get/get.dart';
 
@@ -28,21 +29,37 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
           onPressed: () {
             controller.changeIndex(0);
           },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black54,),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black54,
+          ),
         ),
       ),
-      body: GridView.builder(
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return CategoryItemWidget(
-            categoryItemName: 'ABC',
-            icon: Icons.adb,
-            onTap: () {},
+      body: GetBuilder<CategoryController>(builder: (controller) {
+        if (controller.getCategoryInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
+        }
+        return RefreshIndicator(
+          onRefresh: () async {
+            controller.getCategories();
+          },
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4),
+            itemCount: controller.categoryModel.data?.length ?? 0,
+            itemBuilder: (context, index) {
+              return CategoryItemWidget(
+                categoryItemName:
+                    controller.categoryModel.data![index].categoryName ?? '',
+                image: controller.categoryModel.data![index].categoryImg ?? '',
+                onTap: () {},
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }
