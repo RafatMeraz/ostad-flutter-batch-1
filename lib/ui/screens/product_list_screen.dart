@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/product_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/product_item_preview_card.dart';
 
-import '../getx/bottom_navigation_controller.dart';
-
 class ProductListScreen extends StatefulWidget {
-  const ProductListScreen({Key? key}) : super(key: key);
+  final String categoryId, categoryName;
+
+  const ProductListScreen(
+      {Key? key, required this.categoryId, required this.categoryName})
+      : super(key: key);
 
   @override
   State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
-  BottomNavigationController controller = Get.put(BottomNavigationController());
+  ProductController controller = Get.put(ProductController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.getProductsByCategory(widget.categoryId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +31,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
       appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.white,
-        title: const Text(
-          'All Products',
-          style: TextStyle(color: Colors.black54),
+        title: Text(
+          widget.categoryName,
+          style: const TextStyle(color: Colors.black54),
         ),
         leading: IconButton(
           onPressed: () {
-            controller.changeIndex(0);
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -34,16 +45,29 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 7/8
-        ),
-        itemCount: 100,
-        itemBuilder: (context, index) {
-          return const ProductItemPreviewCard();
-        },
-      ),
+      body: GetBuilder<ProductController>(builder: (productController) {
+        if (productController.productByCategoryInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if ((productController.productByCategoryModel.data?.length ?? 0) == 0) {
+          return const Center(
+            child: Text('No products'),
+          );
+        }
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, childAspectRatio: 2 / 3),
+          itemCount: productController.productByCategoryModel.data?.length ?? 0,
+          itemBuilder: (context, index) {
+            return ProductItemPreviewCard(
+              productData:
+                  productController.productByCategoryModel.data![index],
+            );
+          },
+        );
+      }),
     );
   }
 }

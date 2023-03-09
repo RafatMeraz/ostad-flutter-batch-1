@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_one/ui/widgets/product_item_preview_card.dart';
 
 import '../getx/bottom_navigation_controller.dart';
 
@@ -34,16 +33,16 @@ class _WishListScreenState extends State<WishListScreen> {
           ),
         ),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 7/8
-        ),
-        itemCount: 100,
-        itemBuilder: (context, index) {
-          return const ProductItemPreviewCard();
-        },
-      ),
+      // body: GridView.builder(
+      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //     crossAxisCount: 3,
+      //     childAspectRatio: 7/8
+      //   ),
+      //   itemCount: 100,
+      //   itemBuilder: (context, index) {
+      //     return const ProductItemPreviewCard();
+      //   },
+      // ),
     );
   }
 }

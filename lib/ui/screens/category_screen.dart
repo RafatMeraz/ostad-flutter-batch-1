@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/category_controller.dart';
+import 'package:ostad_flutter_batch_one/ui/screens/product_list_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/category_item_widget.dart';
 import 'package:get/get.dart';
 
@@ -52,9 +53,21 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
             itemBuilder: (context, index) {
               return CategoryItemWidget(
                 categoryItemName:
-                    controller.categoryModel.data![index].categoryName ?? '',
+                controller.categoryModel.data![index].categoryName ?? '',
                 image: controller.categoryModel.data![index].categoryImg ?? '',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductListScreen(
+                          categoryId:
+                              '${controller.categoryModel.data![index].id ?? 1}',
+                        categoryName:
+                              controller.categoryModel.data![index].categoryName ?? '',
+                      ),
+                    ),
+                  );
+                },
               );
             },
           ),

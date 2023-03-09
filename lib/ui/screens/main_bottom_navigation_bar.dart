@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/bottom_navigation_controller.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/product_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/carts_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/category_screen.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/home_screen.dart';
@@ -22,6 +23,7 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   BottomNavigationController controller = Get.put(BottomNavigationController());
   HomeController homeController = Get.put(HomeController());
   CategoryController categoryController = Get.put(CategoryController());
+  ProductController productController = Get.put(ProductController());
 
   final List<Widget> screens = const [
     HomeScreen(),
@@ -33,8 +35,13 @@ class _MainBottomNavigationBarState extends State<MainBottomNavigationBar> {
   @override
   void initState() {
     super.initState();
-    homeController.getProductSliderList();
-    categoryController.getCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.getProductSliderList();
+      categoryController.getCategories();
+      productController.getNewProducts();
+      productController.getSpecialProducts();
+      productController.getPopularProducts();
+    });
   }
 
   @override

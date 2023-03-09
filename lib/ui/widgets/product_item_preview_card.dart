@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_one/data/models/product_model.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/product_details_screen.dart';
 
 import '../utils/app_colors.dart';
@@ -6,7 +7,10 @@ import '../utils/app_colors.dart';
 class ProductItemPreviewCard extends StatelessWidget {
   const ProductItemPreviewCard({
     Key? key,
+    required this.productData,
   }) : super(key: key);
+
+  final ProductData productData;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class ProductItemPreviewCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
-            Image.asset(
-              'assets/images/product.png',
+            Image.network(
+              productData.image ?? '',
               height: 80,
               width: 160,
               fit: BoxFit.cover,
@@ -31,10 +35,10 @@ class ProductItemPreviewCard extends StatelessWidget {
             const SizedBox(
               height: 6,
             ),
-            const Text(
-              'Product name',
+            Text(
+              productData.title ?? '',
               maxLines: 2,
-              style: TextStyle(
+              style: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 13,
                   color: Colors.black54,
@@ -48,7 +52,7 @@ class ProductItemPreviewCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '\$800',
+                  '\$${productData.price}',
                   style: TextStyle(
                       color: AppColors.primaryColor,
                       fontSize: 12,
@@ -62,9 +66,9 @@ class ProductItemPreviewCard extends StatelessWidget {
                   color: Colors.amberAccent,
                   size: 14,
                 ),
-                const Text(
-                  '4.5',
-                  style: TextStyle(
+                Text(
+                  '${productData.star ?? 0.0}',
+                  style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
                       fontWeight: FontWeight.w400),
@@ -73,17 +77,19 @@ class ProductItemPreviewCard extends StatelessWidget {
                   width: 8,
                 ),
                 GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(4)),
-                        child: const Icon(
-                          Icons.favorite_border,
-                          size: 10,
-                          color: Colors.white,
-                        )))
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(4)),
+                    child: const Icon(
+                      Icons.favorite_border,
+                      size: 10,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(
