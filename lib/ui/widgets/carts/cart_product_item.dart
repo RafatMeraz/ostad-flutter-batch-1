@@ -82,10 +82,14 @@ class CartProductItem extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                       const Spacer(),
-                      const SizedBox(
+                      SizedBox(
                         width: 95,
                         height: 30,
-                        child: IncDecFormField(),
+                        child: IncDecFormField(
+                          onChange: (newValue) {
+
+                          },
+                        ),
                       )
                     ],
                   )

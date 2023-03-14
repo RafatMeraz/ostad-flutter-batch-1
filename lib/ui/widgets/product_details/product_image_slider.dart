@@ -4,7 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../utils/app_colors.dart';
 
 class ProductImageSlider extends StatelessWidget {
-  ProductImageSlider({Key? key}) : super(key: key);
+  final List<String> sliders;
+
+  ProductImageSlider({Key? key, required this.sliders}) : super(key: key);
   final ValueNotifier<int> _currentSelectedIndex = ValueNotifier(0);
   final CarouselController _carouselController = CarouselController();
 
@@ -19,23 +21,20 @@ class ProductImageSlider extends StatelessWidget {
               viewportFraction: 1,
               onPageChanged: (index, _) {
                 _currentSelectedIndex.value = index;
-              }),
-          items: [1, 2, 3, 4, 5].map((i) {
+              },
+          ),
+          items: sliders.map((slider) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/product.png'),
-                        fit: BoxFit.cover
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
-                    ));
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(slider),
+                        fit: BoxFit.scaleDown),
+                  ),
+                  alignment: Alignment.center,
+                );
               },
             );
           }).toList(),

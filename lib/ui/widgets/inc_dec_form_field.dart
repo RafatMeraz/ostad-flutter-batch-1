@@ -4,8 +4,10 @@ import '../utils/app_colors.dart';
 
 class IncDecFormField extends StatefulWidget {
   const IncDecFormField({
-    Key? key,
+    Key? key, required this.onChange,
   }) : super(key: key);
+
+  final Function(int) onChange;
 
   @override
   State<IncDecFormField> createState() => _IncDecFormFieldState();
@@ -19,6 +21,9 @@ class _IncDecFormFieldState extends State<IncDecFormField> {
   void initState() {
     super.initState();
     controller.text = currentValue.toString();
+    controller.addListener(() {
+      widget.onChange(currentValue);
+    });
   }
 
   @override
