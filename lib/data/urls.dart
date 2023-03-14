@@ -8,4 +8,7 @@ class Urls {
 
   static String productByCategoryUrl(String categoryId) =>
       '$baseUrl/ListProductByCategory/$categoryId';
+
+  static String productDetailsByIdUrl(int productId) =>
+      '$baseUrl/ProductDetailsById/$productId';
 }
