@@ -5,13 +5,21 @@ main() {
   runApp(const CraftyBayApp());
 }
 
-class CraftyBayApp extends StatelessWidget {
+class CraftyBayApp extends StatefulWidget {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   const CraftyBayApp({Key? key}) : super(key: key);
 
   @override
+  State<CraftyBayApp> createState() => _CraftyBayAppState();
+}
+
+class _CraftyBayAppState extends State<CraftyBayApp> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SplashScreen(),
+    return MaterialApp(
+      navigatorKey: CraftyBayApp.navigatorKey,
+      home: const SplashScreen(),
     );
   }
 }

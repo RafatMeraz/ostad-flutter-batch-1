@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/data/models/product_details_model.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/auth_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/product_details_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/utils/app_colors.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/inc_dec_form_field.dart';
@@ -21,6 +22,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsController _productDetailsController =
       Get.put(ProductDetailsController());
+  final AuthController _authController = Get.put(AuthController());
 
   Color? selectedColor;
   String? selectedSize;
@@ -290,9 +292,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ],
                     ),
                     SizedBox(
-                        width: 120,
-                        child: AppElevatedButton(
-                            text: 'Add To Cart', onTap: () {}))
+                      width: 120,
+                      child: AppElevatedButton(
+                        text: 'Add To Cart',
+                        onTap: () {
+                          final bool _authState = _authController.checkAuthState();
+                          if (_authState) {
+                            // Add to carts
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               )
