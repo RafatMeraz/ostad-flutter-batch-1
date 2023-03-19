@@ -3,13 +3,18 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:http/http.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/user_controller.dart';
+import 'package:get/get.dart' as gt;
 
 class NetworkUtils {
+  UserController userController = gt.Get.put(UserController());
+
   /// get method for http request
   Future<dynamic> getMethod(String url, {VoidCallback? onUnAuthorize}) async {
     try {
       Uri uri = Uri.parse(url);
-      final Response response = await get(uri, headers: {'token': ''});
+      final Response response =
+          await get(uri, headers: {'token': userController.userToken ?? ''});
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);

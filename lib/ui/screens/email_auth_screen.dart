@@ -83,7 +83,9 @@ class _EmailAuthScreenState extends State<EmailAuthScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const VerifyOtpScreen(),
+                              builder: (context) => VerifyOtpScreen(
+                                email: _emailTEController.text.trim(),
+                              ),
                             ),
                           );
                         });

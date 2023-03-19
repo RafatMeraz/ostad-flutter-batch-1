@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'auth_controller.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/user_controller.dart';
 
 class BottomNavigationController extends GetxController {
   int selectedIndex = 0;
-  AuthController authController = Get.put(AuthController());
+  UserController userController = Get.put(UserController());
 
   void changeIndex(int index) {
     if (index == 2 || index == 3) {
-      if (!authController.checkAuthState()) {
+      if (!userController.checkAuthState()) {
         return;
       }
     }

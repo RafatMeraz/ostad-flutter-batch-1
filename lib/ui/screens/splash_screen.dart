@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/user_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/main_bottom_navigation_bar.dart';
+import 'package:get/get.dart';
 
 import '../utils/app_colors.dart';
 
@@ -12,9 +14,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final UserController userController = Get.put(UserController());
+
   @override
   void initState() {
     super.initState();
+    userController.getUserToken().then((_) {
+      if (userController.userToken != null) {
+        userController.getUserDetails();
+      }
+    });
+
     Future.delayed(const Duration(seconds: 2)).then(
       (value) {
         Navigator.pushAndRemoveUntil(

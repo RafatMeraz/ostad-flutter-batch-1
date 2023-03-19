@@ -2,6 +2,7 @@ class Urls {
   static const String baseUrl = 'https://craftybay.teamrabbil.com/api';
   static const String productSliderUrl = '$baseUrl/ListProductSlider';
   static const String productCategoryUrl = '$baseUrl/CategoryList';
+  static const String readProfileDetails = '$baseUrl/ReadProfile';
 
   static String productByRemarksUrl(String remarks) =>
       '$baseUrl/ListProductByRemark/$remarks';
@@ -14,4 +15,7 @@ class Urls {
 
   static String sendOtpToEmail(String email) =>
       '$baseUrl/UserLogin/$email';
+
+  static String verifyOtp(String email, String otp) =>
+      '$baseUrl/VerifyLogin/$email/$otp';
 }
