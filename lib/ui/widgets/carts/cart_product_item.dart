@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_one/data/models/cart_list_model.dart';
 
 import '../../utils/app_colors.dart';
 import '../inc_dec_form_field.dart';
 
 class CartProductItem extends StatelessWidget {
   const CartProductItem({
-    Key? key,
+    Key? key, required this.cartData,
   }) : super(key: key);
+
+  final CartData cartData;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +21,8 @@ class CartProductItem extends StatelessWidget {
           const SizedBox(
             width: 8,
           ),
-          Image.asset(
-            'assets/images/product.png',
+          Image.network(
+            cartData.product?.image ?? '',
             width: 90,
             height: 70,
             fit: BoxFit.cover,
@@ -31,34 +34,36 @@ class CartProductItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Product name',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                letterSpacing: 0.4),
-                          ),
-                          Row(
-                            children: const [
-                              Text(
-                                'Color : Black',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Text(
-                                'Size : XL',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ],
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              cartData.product?.title ?? '',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  letterSpacing: 0.4),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Color : ${cartData.color ?? ''}',
+                                  style: const TextStyle(fontSize: 13),
+                                ),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text(
+                                  'Size : ${cartData.size ?? ''}',
+                                  maxLines: 1,
+                                  style: const TextStyle(fontSize: 13),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(
@@ -75,7 +80,7 @@ class CartProductItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$100',
+                        '\$${cartData.product?.price ?? 0}',
                         style: TextStyle(
                             color: AppColors.primaryColor,
                             fontSize: 15,
