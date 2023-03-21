@@ -34,17 +34,25 @@ class NetworkUtils {
   Future<dynamic> postMethod(String url,
       {VoidCallback? onUnAuthorize, Map<String, String>? body}) async {
     try {
+      log(body.toString());
       Uri uri = Uri.parse(url);
       final Response response = await post(uri,
-          headers: {'content-type': 'application/json', 'token': ''},
-          body: body);
+          headers: {
+            'content-type': 'application/json',
+            'token': userController.userToken ?? ''
+          },
+          body: jsonEncode(body));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       } else if (response.statusCode == 401) {
-        if (onUnAuthorize != null) {
-          onUnAuthorize();
+        // if (onUnAuthorize != null) {
+        //   onUnAuthorize();
+        // }
+        if (userController.userToken != null) {
+          await userController.logout();
         }
+        userController.redirectUnAuthenticatedUser();
       } else {
         log('status code ${response.statusCode}');
       }
@@ -52,4 +60,6 @@ class NetworkUtils {
       log(e.toString());
     }
   }
+
+
 }

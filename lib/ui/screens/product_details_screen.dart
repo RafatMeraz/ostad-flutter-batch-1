@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/data/models/product_details_model.dart';
+import 'package:ostad_flutter_batch_one/ui/getx/cart_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/product_details_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/getx/user_controller.dart';
 import 'package:ostad_flutter_batch_one/ui/utils/app_colors.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/inc_dec_form_field.dart';
 import 'package:ostad_flutter_batch_one/ui/widgets/product_details/product_image_slider.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_one/ui/widgets/snackbar_widget.dart';
 
 import '../widgets/app_elevated_button.dart';
 
@@ -34,6 +36,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _productDetailsController.getProductDetailsById(widget.productId);
     });
+  }
+
+  Future<void> addToCart(CartController cartController) async {
+    final bool authState = userController.checkAuthState();
+    if (authState &&
+        selectedSize != null &&
+        selectedColor != null) {
+      final result = await cartController.addToCart(
+          widget.productId,
+          selectedSize ?? '',
+          selectedColor.toString() ?? '');
+      if (result) {
+        if (mounted) {
+          showSnackBar(context, 'Added to cart!');
+        }
+      } else {
+        if (mounted) {
+          showSnackBar(context,
+              'Add to cart failed! Try again', true);
+        }
+      }
+    }
   }
 
   @override
@@ -293,14 +317,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                     SizedBox(
                       width: 120,
-                      child: AppElevatedButton(
-                        text: 'Add To Cart',
-                        onTap: () {
-                          final bool _authState = userController.checkAuthState();
-                          if (_authState) {
-                            // Add to carts
+                      child: GetBuilder<CartController>(
+                        builder: (cartController) {
+                          if (cartController.addToCartInProgress) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
                           }
-                        },
+                          return AppElevatedButton(
+                            text: 'Add To Cart',
+                            onTap: () =>
+                              addToCart(cartController),
+                          );
+                        }
                       ),
                     ),
                   ],

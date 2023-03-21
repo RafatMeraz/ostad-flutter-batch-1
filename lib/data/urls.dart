@@ -3,6 +3,7 @@ class Urls {
   static const String productSliderUrl = '$baseUrl/ListProductSlider';
   static const String productCategoryUrl = '$baseUrl/CategoryList';
   static const String readProfileDetails = '$baseUrl/ReadProfile';
+  static const String addToCartUrl = '$baseUrl/CreateCartList';
 
   static String productByRemarksUrl(String remarks) =>
       '$baseUrl/ListProductByRemark/$remarks';

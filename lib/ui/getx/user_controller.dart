@@ -9,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/email_auth_screen.dart';
 
 class UserController extends GetxController {
-  bool loggedIn = false;
   UserDetails? userDetails;
   String? userToken;
 
@@ -53,4 +52,10 @@ class UserController extends GetxController {
     return true;
   }
 
+  Future<void> logout() async {
+    userToken = null;
+    userDetails = null;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+  }
 }
