@@ -5,6 +5,7 @@ class Urls {
   static const String readProfileDetails = '$baseUrl/ReadProfile';
   static const String addToCartUrl = '$baseUrl/CreateCartList';
   static const String getAllCartsUrl = '$baseUrl/CartList';
+  static String deleteCart(int cartId) => '$baseUrl/DeleteCartList/$cartId';
 
   static String productByRemarksUrl(String remarks) =>
       '$baseUrl/ListProductByRemark/$remarks';

@@ -7,6 +7,16 @@ class CartController extends GetxController {
   bool addToCartInProgress = false;
   bool getCartListInProgress = false;
   CartListModel cartListModel = CartListModel();
+  double totalPrice = 0.0;
+
+  void calculateTotalPrice() {
+    if ((cartListModel.data?.length ?? 0) > 0) {
+      totalPrice = 0.0;
+      for (var element in cartListModel.data!) {
+        totalPrice += double.tryParse(element.product?.price ?? '0') ?? 0;
+      }
+    }
+  }
 
   Future<bool> addToCart(int productId, String size, String color) async {
     addToCartInProgress = true;
@@ -32,9 +42,23 @@ class CartController extends GetxController {
     getCartListInProgress = false;
     if (result != null && result['msg'] == 'success') {
       cartListModel = CartListModel.fromJson(result);
+      calculateTotalPrice();
       update();
       return true;
     } else {
+      update();
+      return false;
+    }
+  }
+  
+  Future<bool> deleteCart(int cartId) async {
+    getCartListInProgress = true;
+    update();
+    final result = await NetworkUtils().getMethod(Urls.deleteCart(cartId));
+    if (result != null && result['msg'] == 'success') {
+      return true;
+    } else {
+      getCartListInProgress = false;
       update();
       return false;
     }

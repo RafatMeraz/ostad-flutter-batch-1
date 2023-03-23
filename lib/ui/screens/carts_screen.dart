@@ -17,19 +17,11 @@ class CartsScreen extends StatefulWidget {
 class _CartsScreenState extends State<CartsScreen> {
   BottomNavigationController controller = Get.put(BottomNavigationController());
   CartController cartController = Get.put(CartController());
-  double totalPrice = 0.0;
 
   @override
   void initState() {
     super.initState();
-    cartController.getCartList().then((value) {
-      if ((cartController.cartListModel.data?.length ?? 0) > 0) {
-        totalPrice = 0.0;
-        for (var element in cartController.cartListModel.data!) {
-          totalPrice += double.tryParse(element.product?.price ?? '0') ?? 0;
-        }
-      }
-    });
+    cartController.getCartList();
   }
 
   @override
@@ -67,16 +59,17 @@ class _CartsScreenState extends State<CartsScreen> {
                     return CartProductItem(
                       cartData: controller.cartListModel.data![index],
                       onItemCountChange: (int oldCount, int newCount) {
-                        final productPrice = double.tryParse(controller.cartListModel
-                            .data![index].product?.price ??
-                            '') ??
+                        final productPrice = double.tryParse(controller
+                                    .cartListModel
+                                    .data![index]
+                                    .product
+                                    ?.price ??
+                                '') ??
                             0.0;
-                        totalPrice -= (oldCount * productPrice);
+                        cartController.totalPrice -= (oldCount * productPrice);
                         final subTotalPrice = newCount * productPrice;
-                        totalPrice += subTotalPrice;
-                        setState(() {
-
-                        });
+                        cartController.totalPrice += subTotalPrice;
+                        setState(() {});
                       },
                     );
                   },
@@ -101,7 +94,7 @@ class _CartsScreenState extends State<CartsScreen> {
                           style: TextStyle(color: Colors.black54, fontSize: 12),
                         ),
                         Text(
-                          '\$$totalPrice',
+                          '\$${cartController.totalPrice}',
                           style: TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 15,
