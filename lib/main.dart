@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_one/ui/screens/splash_screen.dart';
+import 'package:get/get.dart';
 
 main() {
   runApp(const CraftyBayApp());
@@ -17,7 +18,7 @@ class CraftyBayApp extends StatefulWidget {
 class _CraftyBayAppState extends State<CraftyBayApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: CraftyBayApp.navigatorKey,
       home: const SplashScreen(),
     );

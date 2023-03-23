@@ -7,7 +7,7 @@ class IncDecFormField extends StatefulWidget {
     Key? key, required this.onChange,
   }) : super(key: key);
 
-  final Function(int) onChange;
+  final Function(int, int) onChange;
 
   @override
   State<IncDecFormField> createState() => _IncDecFormFieldState();
@@ -15,6 +15,7 @@ class IncDecFormField extends StatefulWidget {
 
 class _IncDecFormFieldState extends State<IncDecFormField> {
   int currentValue = 1;
+  int previousValue = 1;
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -22,7 +23,7 @@ class _IncDecFormFieldState extends State<IncDecFormField> {
     super.initState();
     controller.text = currentValue.toString();
     controller.addListener(() {
-      widget.onChange(currentValue);
+      widget.onChange(previousValue, currentValue);
     });
   }
 
@@ -32,6 +33,9 @@ class _IncDecFormFieldState extends State<IncDecFormField> {
       children: [
         GestureDetector(
           onTap: () {
+            if (currentValue != previousValue) {
+              previousValue = currentValue;
+            }
             currentValue++;
             controller.text = currentValue.toString();
           },
@@ -64,6 +68,9 @@ class _IncDecFormFieldState extends State<IncDecFormField> {
         ),
         GestureDetector(
           onTap: () {
+            if (currentValue != previousValue) {
+              previousValue = currentValue;
+            }
             if (currentValue > 1) {
               currentValue--;
               controller.text = currentValue.toString();

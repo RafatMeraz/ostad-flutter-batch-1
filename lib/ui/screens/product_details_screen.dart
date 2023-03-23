@@ -127,14 +127,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 SizedBox(
                                   width: 90,
                                   child: IncDecFormField(
-                                    onChange: (newValue) {
+                                    onChange: (oldValue, newValue) {
                                       totalAmount = (double.tryParse(
                                                   productDetailsData
                                                       .product?.price ?? '0') ??
                                               0.0) *
                                           newValue;
                                       setState(() {
-
                                       });
                                     },
                                   ),
