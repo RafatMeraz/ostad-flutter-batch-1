@@ -90,7 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 16,
               ),
               GetBuilder<HomeController>(builder: (controller) {
-                if (controller.getProductSliderInProgress) {
+                if (controller.getProductSliderInProgress ||
+                    controller.productSliderModel.data == null) {
                   return const CircularProgressIndicator();
                 } else {
                   return HomeBannerSlider(

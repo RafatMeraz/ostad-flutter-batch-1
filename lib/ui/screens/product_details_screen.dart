@@ -23,8 +23,8 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsController _productDetailsController =
-      Get.put(ProductDetailsController());
-  final UserController userController = Get.put(UserController());
+      Get.find<ProductDetailsController>();
+  final UserController userController = Get.find<UserController>();
 
   Color? selectedColor;
   String? selectedSize;
@@ -46,7 +46,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       final result = await cartController.addToCart(
           widget.productId,
           selectedSize ?? '',
-          selectedColor.toString() ?? '');
+          selectedColor.toString());
       if (result) {
         if (mounted) {
           showSnackBar(context, 'Added to cart!');
@@ -77,6 +77,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: GetBuilder<ProductDetailsController>(
           builder: (productDetailsController) {
         if (productDetailsController.getProductDetailsInProgress) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (productDetailsController.productDetailsModel.data == null) {
           return const Center(
             child: CircularProgressIndicator(),
           );
