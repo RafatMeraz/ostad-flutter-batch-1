@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:http/http.dart';
@@ -62,4 +63,30 @@ class NetworkUtils {
   }
 
 
+  Future<dynamic> postMethodWithFile(File profilePicture) async {
+    var request = MultipartRequest('POST', Uri.parse('urls'));
+    request.fields['name'] = 'rafat';
+    request.fields['age'] = '50';
+    request.fields['address'] = 'sdjfdksjfk';
+    final profilePicMultipartFile = await getMultipartFile(profilePicture, 'profile-image');
+    request.files.add(profilePicMultipartFile);
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.transform(utf8.decoder).join();
+      return jsonDecode(responseData);
+    } else {
+
+    }
+  }
+
+  Future<MultipartFile> getMultipartFile(File file, String fieldName) async {
+    return MultipartFile.fromBytes(fieldName, file.readAsBytesSync(),
+        filename: file.path);
+  }
 }
+
+
+
+
+
+
